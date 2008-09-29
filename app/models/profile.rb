@@ -38,10 +38,8 @@ class Profile < ActiveRecord::Base
   validates_uniqueness_of :email, :case_sensitive => false
   
   # Feeds
-  has_many :feeds
-  has_many :feed_items, :through => :feeds, :order => 'created_at desc'
-  has_many :private_feed_items, :through => :feeds, :source => :feed_item, :conditions => {:is_public => false}, :order => 'created_at desc'
-  has_many :public_feed_items, :through => :feeds, :source => :feed_item, :conditions => {:is_public => true}, :order => 'created_at desc'
+  has_many :feed_entry_profiles
+  has_many :feed_entries, :through => :feed_entry_profiles, :uniq => true
   
   # Messages
   has_many :sent_messages,     :class_name => 'Message', :order => 'created_at desc', :foreign_key => 'sender_id'

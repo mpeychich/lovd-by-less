@@ -23,9 +23,9 @@ class ForumTopic < ActiveRecord::Base
     "#{self.id}-#{title.to_safe_uri}"
   end
   
-  def after_create
-    feed_item = FeedItem.create(:item => self)
-  end
+  # def after_create
+  #   feed_item = FeedItem.create(:item => self)
+  # end
   
   def users
     posts.collect{|p| p.owner.user}.uniq

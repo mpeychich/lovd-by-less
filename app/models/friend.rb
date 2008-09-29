@@ -16,19 +16,10 @@ class Friend < ActiveRecord::Base
   belongs_to :inviter, :class_name => 'Profile'
   belongs_to :invited, :class_name => 'Profile'
   
-  after_create :create_feed_item
-  after_update :create_feed_item
-  
   # Statuses Array
   
   ACCEPTED = 1
   PENDING = 0
-  
-  def create_feed_item
-    feed_item = FeedItem.create(:item => self)
-    inviter.feed_items << feed_item
-    invited.feed_items << feed_item
-  end
     
   def validate
     errors.add('inviter', 'inviter and invited can not be the same user') if invited == inviter

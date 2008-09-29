@@ -21,8 +21,8 @@ class Photo < ActiveRecord::Base
   validates_presence_of :image, :profile_id
   
   def after_create
-    feed_item = FeedItem.create(:item => self)
-    ([profile] + profile.friends + profile.followers).each{ |p| p.feed_items << feed_item }
+    f = FeedEntry::NewPhoto.create_from(self)
+    ([profile] + profile.friends + profile.followers).each{ |p| p.feed_entries << f }
   end
 
   file_column :image, :magick => {

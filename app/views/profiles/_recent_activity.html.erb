@@ -1,18 +1,10 @@
-<%- 
-#locals
-feed_items ||= @feed_items 
-
--%>
-
-<%- unless feed_items.empty? -%>
+<%- unless @feed_entries.empty? -%>
 <div class="activity_box">
 	<h2>Recent Activity</h2>
 	<div class="inside_box">    
-		<% feed_items.each do |feed_item| %>
-		<% next unless feed_item.item %>
-		<%= render( :partial => "feed_items/#{feed_item.partial}", :locals => {:feed_item => feed_item}) %>
+		<% @feed_entries.each do |feed_entry| %>
+      <%= feed_entry.render %>
 		<% end %>
-		
 		<div class="clear"></div>      
 	</div>
 </div>

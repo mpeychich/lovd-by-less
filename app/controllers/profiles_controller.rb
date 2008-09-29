@@ -23,15 +23,10 @@ class ProfilesController < ApplicationController
       
 
     @comments = @profile.comments.paginate(:page => @page, :per_page => @per_page)
-    
+    @feed_entries = @profile.feed_entries
     respond_to do |wants|
-      wants.html do
-        @feed_items = @profile.feed_items
-      end
-      wants.rss do 
-        @feed_items = @profile.feed_items
-        render :layout => false
-      end
+      wants.html
+      wants.rss { render :layout => false }
     end
   end
   

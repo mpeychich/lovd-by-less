@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def allow_to level = nil, args = {}
+    logger.debug(@template.inspect)
     return unless level
     @level ||= []
     @level << [level, args]    

@@ -17,13 +17,16 @@ class Blog < ActiveRecord::Base
   validates_presence_of :title, :body
   
   def after_create
-    feed_item = FeedItem.create(:item => self)
-    ([profile] + profile.friends + profile.followers).each{ |p| p.feed_items << feed_item }
+    f = FeedEntry::NewBlog.create_from(self)
+    ([profile] + profile.friends + profile.followers).each{ |p| p.feed_items << f }
   end
   
   
   def to_param
     "#{self.id}-#{title.to_safe_uri}"
   end
-
+  
+  def summary
+    body.truncate(60)
+  end
 end

@@ -21,7 +21,7 @@ class Photo < ActiveRecord::Base
   validates_presence_of :image, :profile_id
   
   def after_create
-    FeedEntry.create_from(self)
+    FeedEntry.create_from(self, 'NewPhoto')
   end
 
   file_column :image, :magick => {

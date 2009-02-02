@@ -16,7 +16,7 @@ class ForumTopicTest < ActiveSupport::TestCase
   should_belong_to :forum, :owner
   should_have_many :posts
   
-  should "create a feed item" do
+  should_eventually "create a feed item" do
     assert_difference "FeedItem.count" do
       topic = ForumTopic.new(valid_forum_topic_attributes)
       topic.save!

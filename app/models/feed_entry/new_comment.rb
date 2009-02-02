@@ -14,12 +14,12 @@
 #  metadata      :text          
 #
 
-class FeedEntry::Comment < FeedEntry
+class FeedEntry::NewComment < FeedEntry
   belongs_to :comment, :class_name => "Comment", :foreign_key => "ref_id"
   
   class << self
     def acceptable?(record)
-      record.is_a?(Blog)
+      record.is_a?(Comment)
     end
   end
   

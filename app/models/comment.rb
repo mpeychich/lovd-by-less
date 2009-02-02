@@ -22,7 +22,7 @@ class Comment < ActiveRecord::Base
   belongs_to :profile
 
   def after_create
-    FeedEntry.create(self)
+    FeedEntry.create_from(self, 'NewComment')
   end
   
   

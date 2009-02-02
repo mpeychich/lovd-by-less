@@ -14,7 +14,7 @@
 #  metadata      :text          
 #
 
-class FeedEntry::Blog < FeedEntry
+class FeedEntry::NewBlog < FeedEntry
   belongs_to :blog, :class_name => "::Blog", :foreign_key => "ref_id"
   
   class << self

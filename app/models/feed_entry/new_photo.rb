@@ -14,7 +14,7 @@
 #  metadata      :text          
 #
 
-class FeedEntry::Photo < FeedEntry
+class FeedEntry::NewPhoto < FeedEntry
   belongs_to :photo, :class_name => "Photo", :foreign_key => "ref_id"
   
   class << self

@@ -17,7 +17,7 @@ class Blog < ActiveRecord::Base
   validates_presence_of :title, :body
   
   def after_create
-    FeedEntry.create_from(self)
+    FeedEntry.create_from(self, 'NewBlog')
   end
   
   

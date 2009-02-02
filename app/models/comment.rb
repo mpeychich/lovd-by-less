@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 20080919221242
 #
 # Table name: comments
 #
@@ -21,10 +21,9 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
   belongs_to :profile
 
-  # def after_create
-  #   feed_item = FeedItem.create(:item => self)
-  #   ([profile] + profile.friends + profile.followers).each{ |p| p.feed_items << feed_item }
-  # end
+  def after_create
+    FeedEntry.create(self)
+  end
   
   
   def self.between_profiles profile1, profile2

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 20080919221242
 #
 # Table name: photos
 #
@@ -21,8 +21,7 @@ class Photo < ActiveRecord::Base
   validates_presence_of :image, :profile_id
   
   def after_create
-    f = FeedEntry::NewPhoto.create_from(self)
-    ([profile] + profile.friends + profile.followers).each{ |p| p.feed_entries << f }
+    FeedEntry.create_from(self)
   end
 
   file_column :image, :magick => {

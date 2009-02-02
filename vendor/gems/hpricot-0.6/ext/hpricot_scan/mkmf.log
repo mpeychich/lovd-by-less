@@ -1,6 +1,6 @@
 have_library: checking for main() in -lc... -------------------- yes
 
-"gcc -o conftest -I. -I/usr/local/lib/ruby/1.8/i686-darwin8.10.3 -I.  -g -O2  -fno-common -pipe -fno-common conftest.c  -L"/usr/local/lib"      -lruby-static -lc  -lpthread -ldl -lobjc  "
+"gcc -o conftest -I. -I/usr/local/ruby1.8.6/lib/ruby/1.8/i686-darwin9.5.0 -I.  -g -O2 -pipe -fno-common conftest.c  -L"." -L"/usr/local/ruby1.8.6/lib" -L.      -lruby1.8.6-static -lc  -ldl -lobjc  "
 checked program was:
 /* begin */
 1: /*top*/

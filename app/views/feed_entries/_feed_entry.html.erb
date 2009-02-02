@@ -1,0 +1,10 @@
+<% if feed_entry.display? %>
+  <li class="feed_entry <%= feed_entry.html_classes %>">
+    <span class="feed_item_inner">
+      <span class="feed_entry_title">
+        <%= h feed_entry.title %>:
+      </span>
+      <%= feed_text(feed_entry) %>
+    </span>
+  </li>
+<% end %>

@@ -4,11 +4,11 @@ SHELL = /bin/sh
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/local/lib/ruby/1.8/i686-darwin8.10.3
+topdir = /usr/local/ruby1.8.6/lib/ruby/1.8/i686-darwin9.5.0
 hdrdir = $(topdir)
 VPATH = $(srcdir):$(topdir):$(hdrdir)
-prefix = $(DESTDIR)/usr/local
-exec_prefix = $(DESTDIR)/usr/local
+prefix = $(DESTDIR)/usr/local/ruby1.8.6
+exec_prefix = $(prefix)
 sitedir = $(prefix)/lib/ruby/site_ruby
 rubylibdir = $(libdir)/ruby/$(ruby_version)
 docdir = $(datarootdir)/doc/$(PACKAGE)
@@ -24,7 +24,7 @@ includedir = $(prefix)/include
 infodir = $(datarootdir)/info
 sysconfdir = $(prefix)/etc
 mandir = $(datarootdir)/man
-libdir = $(DESTDIR)/usr/local/lib
+libdir = $(exec_prefix)/lib
 sharedstatedir = $(prefix)/com
 oldincludedir = $(DESTDIR)/usr/include
 pdfdir = $(docdir)
@@ -35,27 +35,27 @@ sitelibdir = $(sitedir)/$(ruby_version)
 libexecdir = $(exec_prefix)/libexec
 
 CC = gcc
-LIBRUBY = $(LIBRUBY_SO)
+LIBRUBY = $(LIBRUBY_A)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
+LIBRUBYARG_SHARED = 
 LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
 
 RUBY_EXTCONF_H = 
-CFLAGS   =  -fno-common -g -O2  -fno-common -pipe -fno-common 
-INCFLAGS = -I. -I. -I/usr/local/lib/ruby/1.8/i686-darwin8.10.3 -I.
+CFLAGS   =  -fno-common -g -O2 -pipe -fno-common 
+INCFLAGS = -I. -I. -I/usr/local/ruby1.8.6/lib/ruby/1.8/i686-darwin9.5.0 -I.
 CPPFLAGS =  
 CXXFLAGS = $(CFLAGS) 
-DLDFLAGS =   
+DLDFLAGS = -L.   
 LDSHARED = cc -dynamic -bundle -undefined suppress -flat_namespace
 AR = ar
 EXEEXT = 
 
-RUBY_INSTALL_NAME = ruby
-RUBY_SO_NAME = ruby
-arch = i686-darwin8.10.3
-sitearch = i686-darwin8.10.3
+RUBY_INSTALL_NAME = ruby1.8.6
+RUBY_SO_NAME = ruby1.8.6
+arch = i686-darwin9.5.0
+sitearch = i686-darwin9.5.0
 ruby_version = 1.8
-ruby = /usr/local/bin/ruby
+ruby = /usr/local/ruby1.8.6/bin/ruby1.8.6
 RUBY = $(ruby)
 RM = rm -f
 MAKEDIRS = mkdir -p
@@ -68,18 +68,18 @@ COPY = cp
 
 preload = 
 
-libpath = $(libdir)
-LIBPATH =  -L"$(libdir)"
+libpath = . $(libdir)
+LIBPATH =  -L"." -L"$(libdir)"
 DEFFILE = 
 
-CLEANFILES = 
+CLEANFILES = mkmf.log
 DISTCLEANFILES = 
 
 extout = 
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS = $(LIBRUBYARG_SHARED) -lc  -lpthread -ldl -lobjc  
+LIBS =  -lc  -ldl -lobjc  
 SRCS = hpricot_scan.c
 OBJS = hpricot_scan.o
 TARGET = hpricot_scan
@@ -88,8 +88,8 @@ EXTSTATIC =
 STATIC_LIB = 
 
 RUBYCOMMONDIR = $(sitedir)$(target_prefix)
-RUBYLIBDIR = /Users/steve/rails/lovd-by-less/vendor/gems/hpricot-0.6/bin$(target_prefix)
-RUBYARCHDIR = /Users/steve/rails/lovd-by-less/vendor/gems/hpricot-0.6/bin$(target_prefix)
+RUBYLIBDIR = /Users/mpeychich/rails/open-source/lovd-by-less/vendor/gems/hpricot-0.6/bin$(target_prefix)
+RUBYARCHDIR = /Users/mpeychich/rails/open-source/lovd-by-less/vendor/gems/hpricot-0.6/bin$(target_prefix)
 
 TARGET_SO     = $(DLLIB)
 CLEANLIBS     = $(TARGET).bundle $(TARGET).il? $(TARGET).tds $(TARGET).map
@@ -142,7 +142,7 @@ site-install-rb: install-rb
 
 $(DLLIB): $(OBJS)
 	@-$(RM) $@
-	$(LDSHARED) $(DLDFLAGS) $(LIBPATH) -o $@ $(OBJS) $(LOCAL_LIBS) $(LIBS)
+	$(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
 
 
 

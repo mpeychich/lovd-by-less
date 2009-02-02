@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 20080919221242
 #
 # Table name: blogs
 #
@@ -17,8 +17,7 @@ class Blog < ActiveRecord::Base
   validates_presence_of :title, :body
   
   def after_create
-    f = FeedEntry::NewBlog.create_from(self)
-    ([profile] + profile.friends + profile.followers).each{ |p| p.feed_items << f }
+    FeedEntry.create_from(self)
   end
   
   

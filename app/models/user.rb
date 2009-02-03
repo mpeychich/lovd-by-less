@@ -3,7 +3,7 @@
 #
 # Table name: users
 #
-#  id                        :integer(11)   not null, primary key
+#  id                        :integer(4)    not null, primary key
 #  login                     :string(255)   
 #  crypted_password          :string(40)    
 #  salt                      :string(40)    
@@ -13,7 +13,6 @@
 #  remember_token_expires_at :datetime      
 #  is_admin                  :boolean(1)    
 #  can_send_messages         :boolean(1)    default(TRUE)
-#  time_zone                 :string(255)   default("UTC")
 #  email_verification        :string(255)   
 #  email_verified            :boolean(1)    
 #
@@ -28,6 +27,7 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password, :email, :terms_of_service
   attr_protected :is_admin, :can_send_messages
+  attr_immutable :id
   
   validates_acceptance_of :terms_of_service, :on => :create
   validates_confirmation_of :password, :if => :password_required?
@@ -41,9 +41,8 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]{1}+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :on => :create, :message=>"Invalid email address."
 
   before_save :encrypt_password
-  validates_captcha unless ENV['RAILS_ENV'] == 'test'
+  validates_less_reverse_captcha
   
-  composed_of :tz, :class_name => 'TZInfo::Timezone', :mapping => %w( time_zone time_zone )
 
 
 

@@ -24,12 +24,12 @@ class LessFormBuilder < ActionView::Helpers::FormBuilder
   # that value is used for the text of the label.  Otherwise,
   # "#{method titleized}: " is used.
   def label method, options = {}
-    text = options[:label] ||  "#{method.to_s.titleize}: "
+    text = options.delete(:label) ||  "#{method.to_s.titleize}: "
     if options[:for]
       "<label for='#{options.delete(:for)}'>#{text}</label>"
     else
       #need to use InstanceTag to build the correct ID for :for
-      ActionView::Helpers::InstanceTag.new(@object_name, method, self, nil, @object).to_label_tag(text, options)
+      ActionView::Helpers::InstanceTag.new(@object_name, method, self, @object).to_label_tag(text, options)
     end
   end
   

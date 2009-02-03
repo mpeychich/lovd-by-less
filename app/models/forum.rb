@@ -3,10 +3,10 @@
 #
 # Table name: forums
 #
-#  id          :integer(11)   not null, primary key
+#  id          :integer(4)    not null, primary key
 #  name        :string(255)   
 #  description :text          
-#  position    :integer(11)   
+#  position    :integer(4)    
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #
@@ -14,6 +14,7 @@
 class Forum < ActiveRecord::Base
   
   acts_as_list
+  attr_immutable :id
   
   validates_presence_of :name
   

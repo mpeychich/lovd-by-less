@@ -3,8 +3,8 @@
 #
 # Table name: profiles
 #
-#  id               :integer(11)   not null, primary key
-#  user_id          :integer(11)   
+#  id               :integer(4)    not null, primary key
+#  user_id          :integer(4)    
 #  first_name       :string(255)   
 #  last_name        :string(255)   
 #  website          :string(255)   
@@ -22,6 +22,8 @@
 #  is_active        :boolean(1)    
 #  youtube_username :string(255)   
 #  flickr_username  :string(255)   
+#  last_activity_at :datetime      
+#  time_zone        :string(255)   default("UTC")
 #
 
 class Profile < ActiveRecord::Base
@@ -32,6 +34,7 @@ class Profile < ActiveRecord::Base
   rename it to active
 =end
   attr_protected :is_active
+  attr_immutable :id
   
   validates_format_of :email, :with => /^([^@\s]{1}+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message=>'does not look like an email address.'
   validates_length_of :email, :within => 3..100
@@ -67,7 +70,11 @@ class Profile < ActiveRecord::Base
   #Forums
   has_many :forum_posts, :foreign_key => 'owner_id', :dependent => :destroy
   
-  acts_as_ferret :fields => [ :location, :f, :about_me ], :remote=>true
+  define_index do
+    indexes location, about_me, first_name, last_name
+    indexes user.login, :as => :login
+    set_property :min_prefix_len => 3, :morphology => false
+  end
   
   file_column :icon, :magick => {
     :versions => { 
@@ -177,16 +184,6 @@ class Profile < ActiveRecord::Base
   
   
   
-  
-  
-  def self.search query = '', options = {}
-    query ||= ''
-    q = '*' + query.gsub(/[^\w\s-]/, '').gsub(' ', '* *') + '*'
-    options.each {|key, value| q += " #{key}:#{value}"}
-    arr = find_by_contents q, :limit=>:all
-    logger.debug arr.inspect
-    arr
-  end
   
   
   

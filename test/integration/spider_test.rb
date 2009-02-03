@@ -10,11 +10,11 @@ class SpiderTest < ActionController::IntegrationTest
     get "/"
     assert_response 200
   
-    spider(@response.body, '/', false)
+    spider @response.body, '/', :ignore_forms=>[/\/profiles\/.*\/photos/]
   end
   
   
-  def test_spider_aa_user
+  def test_spider_user
     puts ''
     puts 'test_spider_user'
     get "/login"
@@ -26,12 +26,13 @@ class SpiderTest < ActionController::IntegrationTest
     follow_redirect!
   
     #   puts @response.body
-    spider(@response.body, "/", false)
+    spider(@response.body, "/", :ignore_forms=>[/\/profiles\/.*\/photos/])
   end
-
+  
   
   
   def test_spider_admin
+    Profile.stubs(:search).returns(ThinkingSphinx::Collection.new(1, 1, 1, 1))
     puts ''
     puts 'test_spider_admin'
     get "/login"
@@ -43,8 +44,8 @@ class SpiderTest < ActionController::IntegrationTest
     follow_redirect!
   
     #   puts @response.body
-    spider(@response.body, "/", false)
+    spider(@response.body, "/", :verbose=>false, :ignore_forms=>[/\/profiles\/.*\/photos/])
   end
-
+  
 
 end

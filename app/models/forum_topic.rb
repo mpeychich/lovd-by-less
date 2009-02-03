@@ -3,16 +3,17 @@
 #
 # Table name: forum_topics
 #
-#  id         :integer(11)   not null, primary key
+#  id         :integer(4)    not null, primary key
 #  title      :string(255)   
-#  forum_id   :integer(11)   
-#  owner_id   :integer(11)   
+#  forum_id   :integer(4)    
+#  owner_id   :integer(4)    
 #  created_at :datetime      
 #  updated_at :datetime      
 #
 
 class ForumTopic < ActiveRecord::Base
   validates_presence_of :title, :owner_id, :forum_id
+  attr_immutable :id, :forum_id, :owner_id
   
   belongs_to :owner, :class_name => "Profile"
   belongs_to :forum

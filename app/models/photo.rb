@@ -3,11 +3,11 @@
 #
 # Table name: photos
 #
-#  id         :integer(11)   not null, primary key
+#  id         :integer(4)    not null, primary key
 #  caption    :string(1000)  
 #  created_at :datetime      
 #  updated_at :datetime      
-#  profile_id :integer(11)   
+#  profile_id :integer(4)    
 #  image      :string(255)   
 #
 
@@ -19,6 +19,7 @@ class Photo < ActiveRecord::Base
   belongs_to :profile
   
   validates_presence_of :image, :profile_id
+  attr_immutable :id, :profile_id
   
   def after_create
     FeedEntry.create_from(self, 'NewPhoto')
